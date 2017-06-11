@@ -18,9 +18,27 @@ class WomenWhoCodeMember(object):
         abc.first_name = first
         abc.last_name = last
         abc.seats = seats
-        abc.email = first+'.'+last+'@g.com'
+        #abc.email = first+'.'+last+'@g.com' # First used as an instance variable, later on used as a property.
 
-    
+
+    # See property decorators used at the bottom
+    @property
+    def email(self):
+        return self.first_name+'.'+self.last_name+'@g.com'
+
+    @email.setter
+    def email(self, email):
+        #self.email = email
+        # Above line would produce an error as a property setter can only set the values of the instance variables and not the properties i.e the property decorator used is used to set the values here like first name, last name, seats and not email as it is set as a property decorator. Thus the property decorator can be used as an attribute and can be used to change the instance variables but not change the property variables as the property variables do not exist in memory, the interpretor just uses it to edit the instance values.
+        self.first_name = email # first name is set as email just to illustrate how the intance variables values change
+
+    @email.deleter
+    def email(self): # Same as setter, just setting those values to None, and same can be achieved by passing None to setter and it doesnt need any arguments because we are DELETING means always setting those values to None, if we are setting smething else then we would be using the setter
+        self.first_name = None
+        self.last_name = None
+        self.seats = None
+
+        
     def increaseSeats(self):
         self.seats = self.seats+self.raise_seats
 
@@ -65,7 +83,7 @@ member_2 = WomenWhoCodeMember('AJ', 'Y', 2)
 
 member_1.first_name= 'AJ'
 member_1.last_name = 'Y'
-member_1.email = 'aj.y@g.com'
+#member_1.email = 'aj.y@g.com' # Cant do this if email is used as a property decorator fn without ant setter property function written
 member_1.seats = 1
 
 #print('member_2', member_1.seats)
@@ -198,3 +216,35 @@ member_1.seats = 1
 
 
 
+# Property Decorator
+
+# print('member 1', member_1.fullName())
+# print('memebr 1 first name',member_1.first_name)
+# print('memebr 1 first name',member_1.last_name)
+# print('memebr 1 first name',member_1.email)
+# member_1.first_name = 'Boom'
+# print('After changing Membr 1 first name')
+# print('memebr 1 first name',member_1.first_name)
+# print('memebr 1 first name',member_1.last_name)
+# print('memebr 1 first name',member_1.email)
+
+# So changing 1 property of an instance doesnt affect the other variable associated with it.
+# Hence we have to either use getter or setter or a function or a function with property decorator
+
+#after using property decorator
+# print('member 1', member_1.fullName())
+# print('memebr 1 first name',member_1.first_name)
+# print('memebr 1 first name',member_1.last_name)
+# print('memebr 1 first name',member_1.email)
+# member_1.first_name = 'Boom'
+# print('After changing Membr 1 first name')
+# print('memebr 1 first name',member_1.first_name)
+# print('memebr 1 first name',member_1.last_name)
+# print('memebr 1 first name',member_1.email)
+
+member_1.email = 'a@g.com'
+print('member 1 email', member_1.email)
+del member_1.email
+print('After deleting member 1 email', member_1.first_name)
+print('After deleting member 1 email', member_1.last_name)
+print('After deleting member 1 email', member_1.seats)
